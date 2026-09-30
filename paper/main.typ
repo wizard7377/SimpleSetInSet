@@ -17,9 +17,9 @@
     ),
   ),
   abstract: [
-    The Girard-Hurkin paradox is the basis for much heirachacal type theory, and proves a shockingly general result about the nature of universes.
+    The Girard–Hurkens paradox is the basis for much hierarchical type theory, and proves a shockingly general result about the nature of universes.
     Despite this, no accessible proof of the paradox that does not require induction exists.
-    Here, we present a step-by-step explanation of the paradox, with lemmas, using nothing but defenitions
+    Here, we present a step-by-step explanation of the paradox, with lemmas, using nothing but definitions.
   ],
   bibliography: bibliography("refs.bib"),
 )

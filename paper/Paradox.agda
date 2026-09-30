@@ -248,7 +248,7 @@ module Paradox where
           x ∈ cmap ρ p
         prf₅ ↑x⊂p∘ρ = make∋ (prf₄ ↑x⊂p∘ρ)
 
-    -- Well sounded sets are a subset of well founded sets with ρ
+    -- Well-founded sets are a subset of well founded sets with ρ
     Ω⊂ρΩ : Ω ⊂ (cmap ρ Ω) on ι
     Ω⊂ρΩ = prf₄
       where

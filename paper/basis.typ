@@ -4,16 +4,16 @@
 #show ref: theoretic.show-ref
 = Basis of the Paradoxes
 
-While the previous paradoxes are based in naive set theory, the Girard Hurkin paradox is formulated in a formal type theory.
+While the previous paradoxes are based in naive set theory, the Girard–Hurkens paradox is formulated in a formal type theory.
 For this reason, several changes have to be made to the definitions and proofs, from the logical formulation to the definition of sets.
 
-Note that we continue to use $forall_(x in alpha) beta$ to representate $Pi_(x : alpha) beta$, and $A -> B$ to represent $Pi_(x : A) B$ where $x$ does not occur in $B$.
-The reasoning behind this involves the Curry-Howard correspondence, which equates a proof of a proposition and terms of types.
+Note that we continue to use $forall_(x in alpha) beta$ to represent $Pi_(x : alpha) beta$, and $A -> B$ to represent $Pi_(x : A) B$ where $x$ does not occur in $B$.
+The reasoning behind this involves the Curry-Howard correspondence, which equates proofs of propositions with terms of types.
 
 == Logical Formulation
 
-While many are familiar with the logical formulations of type theory wrt inductive types, inductive types pose their own scheme, which is not actually neccassary for this paradox, so we avoid them.
-Instead, we take advantage of a certain embedding of the logical forms that acts equivalently to a view pattern
+While many are familiar with the logical formulations of type theory with respect to inductive types, inductive types pose their own scheme, which is not actually necessary for this paradox, so we avoid them.
+Instead, we take advantage of a certain embedding of the logical forms that acts equivalently to a view pattern.
 
 #definition(<def:falsehood>)[
   Define the falsehood type as $bot := forall_(A in st) A$, and the negation of a type $A$ as $not A := A -> bot$.
@@ -25,9 +25,9 @@ Instead, we take advantage of a certain embedding of the logical forms that acts
 
 The constructor for $top$ and eliminator for $bot$ are omitted.
 
-=== Logical Conectives
+=== Logical Connectives
 
-The usual definitions of the logical connectives of the pair and union are well known.
+The usual definitions of the logical connectives of conjunction and disjunction are well known.
 Slightly less known are their non-inductive impredicative definitions, which we will use here.
 
 #definition(<def:logic_and>)[
@@ -36,28 +36,28 @@ Slightly less known are their non-inductive impredicative definitions, which we 
   We also define the projections $pi_1 : A and B -> A$ and $pi_2 : A and B -> B$ as $pi_1 := lambda p . p A (lambda x y . x)$ and $pi_2 := lambda p . p B (lambda x y . y)$.
 ]
 
-Similar to truthhood, we won't end up using the disjunctive, but we define it for completeness.
+Similar to truth, we won't end up using disjunction, but we define it for completeness.
 #definition(<def:logic_or>)[
   Define the logical disjunction of two types $A$ and $B$ as $A or B := forall_(C in st) (A -> C) -> (B -> C) -> C$.
   We define the injection of an element $x$ in $A$ as $"inL"(x) := Lambda C . lambda f g . f x$, and the injection of an element $y$ in $B$ as $"inR"(y) := Lambda C . lambda f g . g y$.
 ]
 
-We leave the elimination rules for the reader to deduce
+We leave the elimination rules for the reader to deduce.
 
 === Sigma types
 
 The remaining type is the $Sigma$ (dependent pair) type.
-Somewhat suprsingly, even the $Sigma$ type can be defined using an encoding
+Somewhat surprisingly, even the $Sigma$ type can be defined using an encoding.
 
 #definition(<def:sigma>)[
   Given a type $A$ and a dependent type $B : A => st$, we define $Sigma A B := forall_(C in st) (forall_(x in A) B(x) -> C) -> C$.
 ]
 
-For brevity, we shall write the above $Sigma A B$ as $Sigma_(x : A) B(x)$#footnote[$x$ not occuring in $B$] as well as $exists_(x in A) B(x)$ for the same.
+For brevity, we shall write the above $Sigma A B$ as $Sigma_(x : A) B(x)$#footnote[$x$ not occurring in $B$] as well as $exists_(x in A) B(x)$ for the same.
 
 The projections and constructor are defined as follows:
 #definition(<def:sigma_util>)[
-  Given a type $A$, a dependent type $B : A => st$, a element $x : A$, and an element $y : B(x)$, we define the pair $(x , y) := Lambda C . lambda p . p x y$.
+  Given a type $A$, a dependent type $B : A => st$, an element $x : A$, and an element $y : B(x)$, we define the pair $(x , y) := Lambda C . lambda p . p x y$.
 
   In addition, we define the projections $pi_1 : Sigma_(x : A) B(x) -> A$ and $pi_2 : forall_(p in Sigma_(x : A) B(x)) B(pi_1(p))$ as $pi_1 := lambda p . p A (lambda x y . x)$ and $pi_2 := lambda p . p (B(pi_1(p))) (lambda x y . y)$.
 ]
@@ -73,19 +73,19 @@ Because of the slightly more complex nature of the $Sigma$ type, we will explici
 
 === Equality
 Equality, for as much discussion as it is given in Homotopy Type Theory, Cubical Type Theory, and many other theories, is defined quite simply here.
-Namely, equality is defined as yet another encoding, and is also required to be homogenous.
+Namely, equality is defined as yet another encoding, and is also required to be homogeneous.
 
-The obvious choice for this description is the indescerniility of ideneticals (id-id), also called Leibnitz equality
+The obvious choice for this description is the indiscernibility of identicals (id-id), also called Leibniz equality.
 
 #definition(<def:equality>)[
   Given a type $A$, and two elements $x, y : A$, we define $x =_? y := forall_(phi in A => st) phi(x) -> phi(y)$.
 ]
 
 #lemma[
-  Leibnitz equality is a rewriting equivalence relation
+  Leibniz equality is a rewriting equivalence relation
 ]
 #proof[
-  The proof of this, while non-trivial, is well known and outside of the scope of this paper. Suffice it to say, everything shares properties with itself, universality is symetrric, and transitivity is composition.
+  The proof of this, while non-trivial, is well known and outside of the scope of this paper. Suffice it to say, everything shares properties with itself, universality is symmetric, and transitivity is composition.
 ]
 
 We actually will take a concept from Homotopy Type Theory, that of the "fiber" type.
@@ -95,16 +95,16 @@ We actually will take a concept from Homotopy Type Theory, that of the "fiber" t
   Importantly, we have $value : forall_(fiber(f, b)) A$ (refer to the above for the types), where $value(p) =_? b$, as well as $mkfiber(f, a) : fiber(f, f(a))$, where $mkfiber(f, a) := (a, refl(f(a)))$.
 ]
 
-Fibers are important to the first paradox, but not the second
+Fibers are important to the first paradox, but not the second.
 === Basic Sets
 
-While both of our systems use sets in slightly different ways, there are noththeless commenalities we can exploit
+While both of our systems use sets in slightly different ways, there are nonetheless commonalities we can exploit.
 #definition(<def:set>)[
   Given a type $A$, the set of $A$, $[ A ] := A => st$.
-  We write $x in A$ to mean that $A(x)$ is derivable, ie, $in(x, A) := A(x)$
+  We write $x in A$ to mean that $A(x)$ is derivable, i.e., $in(x, A) := A(x)$
 ]
 
-Interestingly, just like in set theory the simplest set to define is the empty set
+Interestingly, just like in set theory, the simplest set to define is the empty set
 #lemma(<def:empty_set>)[Existence of empty set][
   There is a set $emptyset : [ A ]$ (for any $A$) where $emptyset := lambda x bot$.
 ]
@@ -112,16 +112,16 @@ Interestingly, just like in set theory the simplest set to define is the empty s
 We can also define (we will end up using this only in the first paradox) what it means for a set to be a subset of another:
 
 #definition(<def:subset>)[
-  Given a type $A$, and two sets $S, T : [ A ]$, we define $S subset T := forall_(x in A) x in S -> x in T$#footnote[Given that we don't particularly care about set equality, we use this in lieu of the slightly more accurate $subset.eq$]. Predicate wise, a predicate $phi$ describes a subset of the set descirbed by $psi$ if $phi(alpha) -> psi(alpha)$
+  Given a type $A$, and two sets $S, T : [ A ]$, we define $S subset T := forall_(x in A) x in S -> x in T$#footnote[Given that we don't particularly care about set equality, we use this in lieu of the slightly more accurate $subset.eq$]. Predicate-wise, a predicate $phi$ describes a subset of the set described by $psi$ if $phi(alpha) -> psi(alpha)$
 ]
 
-Also, we define two pairs of set operations, raising and lowering
+Also, we define two pairs of set operations, raising and lowering.
 
 #definition(<def:lower1>)[
-  Given a type $A$, a lowering function $down : lower_1(A)$ $lower_1(A) := [ A ] -> A$ is a mapping from sets to elements (ie, sets can be(come) "corresponding" elements#footnote[Note that these are not _equal_, but they should be equivalent])
+  Given a type $A$, a lowering function $down : lower_1(A)$ $lower_1(A) := [ A ] -> A$ is a mapping from sets to elements (i.e., sets can be(come) "corresponding" elements#footnote[Note that these are not _equal_, but they should be equivalent])
 ]
 #definition(<def:raise1>)[
-  Given a type $A$, a raising function $up : raise_1(A)$ $raise_1(A) := A -> [ A ]$ is a mapping from elements to sets (ie, elements can be(come) "corresponding" sets
+  Given a type $A$, a raising function $up : raise_1(A)$ $raise_1(A) := A -> [ A ]$ is a mapping from elements to sets (i.e., elements can be(come) "corresponding" sets)
 ]
 
 #note[
@@ -140,8 +140,8 @@ However, there does exist a mapping from $A -> B$ to $[ A ] -> [ B ]$, although 
 This maps a function on the elements $f : A -> B$ to an injection on the sets $F : A arrow.hook.r B$, which is that every element of the range has a corresponding element of the domain.
 
 #note[
-  While we will not use it, it is noteworthy that this is how some cardinalities are defined in inifinite set thoery (ie, $|"Nat"| <= |"Even"|$) because there exists a mapping from $"Nat" arrow.hook.r "Even"$.
-  As we will demonstrate, there exists a type $uni$ such that $uni arrow.hook.r [ uni ]$ exists, and $[ uni ] arrow.hook.r uni$ exists, and that, while not _bijections_ per se, they are "close enough" to indicate a seperate problem relating to Cantor's paradox (and indeed these are the functions at issue here)
+  While we will not use it, it is noteworthy that this is how some cardinalities are defined in infinite set theory (i.e., $|"Nat"| <= |"Even"|$) because there exists a mapping from $"Nat" arrow.hook.r "Even"$.
+  As we will demonstrate, there exists a type $uni$ such that $uni arrow.hook.r [ uni ]$ exists, and $[ uni ] arrow.hook.r uni$ exists, and that, while not _bijections_ per se, they are "close enough" to indicate a separate problem relating to Cantor's paradox (and indeed these are the functions at issue here).
 ]
 
 #definition(<def:set_rmap>)[
@@ -160,45 +160,45 @@ Of course, there aren't any good examples of (useful) types that have either of 
   That is, $uni := forall_(X in st) lower(X) -> X$
 ]
 
-Universes are important because they represent a type that effectivlily are "sets".
-The way it does this is through cleverly avoiding induction by instsead using an encoding.
+Universes are important because they represent a type whose elements are effectively "sets".
+The way it does this is through cleverly avoiding induction by instead using an encoding.
 
 The way it does this is quite fascinating.
 Given that $mu$ is the fixed point combinator, define $uni' := mu(lambda u . lower(u))$, that is, $uni' <=> [uni'] => uni'$. This is slightly more obviously the usual definition of a ZF set (every set is just a predicate over sets, and nothing else).
-We can then discover that, there is a unique mapping from $uni$ to $uni'$, althogh not vice versa, and the reason is that if we have $"comp" : [ uni' ] => uni'$, then if we have $u : uni$ then we can simply do $u(uni', "comp") : uni'$ ($uni'$ is lowerable so we can construct it)#footnote[For the second paradox, change every $[...]$ in this paragraph to $[[...]]$].
+We can then discover that, there is a unique mapping from $uni$ to $uni'$, although not vice versa, and the reason is that if we have $"comp" : [ uni' ] => uni'$, then if we have $u : uni$ then we can simply do $u(uni', "comp") : uni'$ ($uni'$ is lowerable so we can construct it)#footnote[For the second paradox, change every $[...]$ in this paragraph to $[[...]]$].
 
 
-Even more interestingly, despite the earlier observation that almost no interesting raising and lowering functions exist, the universe has both
+Even more interestingly, despite the earlier observation that almost no interesting raising and lowering functions exist, the universe has both.
 
 #lemma(<lem:lower_uni>)[
   There exists a lowering function $down : lower(uni)$
 ]
 #proof[
   First, we deal with the lowering function.
-  We first take our arguement, $U : [uni]$, and note that the goal is $uni$.
+  We first take our argument, $U : [uni]$, and note that the goal is $uni$.
   We then note that $uni equiv forall_(X in st) lower(X) -> X$, and thus introduce $X : st$ and $down' : lower(X)$.
   We then specify the inner universe to have carrier $X$, thus yielding $U' := map(U, x)$, of type $[ lower(X) -> X ]$.
-  By then applying @def:set_rmap to $U'$ and $down'$ we can get $U'' := rmap(U', down')$, of type $[ X ]$, finally, we apply $down'$ again thus yielding the goal
+  By then applying @def:set_rmap to $U'$ and $down'$ we can get $U'' := rmap(U', down')$, of type $[ X ]$, finally, we apply $down'$ again thus yielding the goal.
 ]
 
-Intuitivly, this function specializes the inner universe, then uses the fact that the inner universe has a lowering function to yield a set of carrier types, then the lowering that result (ie, it "squashes" two universe into one).
+Intuitively, this function specializes the inner universe, then uses the fact that the inner universe has a lowering function to yield a set of carrier types, then lowers that result (i.e., it "squashes" two universes into one).
 
 #lemma[
   There exists a raising function $up : raise(uni)$
 ]
 #proof[
-  This proof is simpler (at least in explanation) then the previous.
-  The reason for this is that we can introduce the universe $u$, and then set the _carrier_ to itself be $[ uni ]$. This means that if we have $[[ uni ]] -> [ uni ]$, we also have $[ uni ]$, and the function can be obtained as $rmap(down)$
+  This proof is simpler (at least in explanation) than the previous.
+  The reason for this is that we can introduce the universe $u$, and then set the _carrier_ to itself be $[ uni ]$. This means that if we have $[[ uni ]] -> [ uni ]$, we also have $[ uni ]$, and the function can be obtained as $rmap(down)$.
 ]
 
 #definition(<def:eta_rho>)[
-  There are two intersting functions we wish to define $eta : [ uni ] -> [ uni ]$ and $rho : uni -> uni$.
+  There are two interesting functions we wish to define: $eta : [ uni ] -> [ uni ]$ and $rho : uni -> uni$.
   The way they are defined is _almost_ the same.
   $rho := down compose up$, and $eta := map(down) compose map(up)$
 ]
 #note[
   $eta$ and $rho$ are not provable inverses of each other.
-  Per as a matter of fact, if they were this would yield Cantor's paradox (a bijection between a set and its power set). However, while these are not _identities_ they have certain properties that nonetheless make them in certain cases act like identities
+  As a matter of fact, if they were this would yield Cantor's paradox (a bijection between a set and its power set). However, while these are not _identities_ they have certain properties that nonetheless make them in certain cases act like identities.
 ]
 
 

@@ -3,14 +3,14 @@
 #show ref: theoretic.show-ref
 = Introduction
 
-To understand the Girard-Hurkin paradox, we must first understand it's two influences, the Burtali Forti paraodx and the Russell paradox.
+To understand the Girard–Hurkens paradox, we must first understand its two influences, the Burali-Forti paradox and the Russell paradox.
 Both of these are paradoxes of set theory, specifically set theory that does not distinguish between sets and classes.
 
 The (naive) set theory needed is constructed as follows:
 
 #axiom[
-  The sets, $st$ are defined by any predicate over sets $phi$#footnote[That is, $phi : st => "Prop"$], where ${ phi }$ is the set of all sets $x$ such that $phi(x)$ is true.
-  We also denotate the same as ${ x | phi(x) }$ (assuming $x$ does not occur in $phi$).
+  The sets, $st$, are defined by any predicate over sets $phi$#footnote[That is, $phi : st => "Prop"$], where ${ phi }$ is the set of all sets $x$ such that $phi(x)$ is true.
+  We also denote the same as ${ x | phi(x) }$ (assuming $x$ does not occur in $phi$).
   We relate sets and their predicates by defining membership to be $x in { phi } := phi(x)$.
 ]
 
@@ -23,7 +23,7 @@ We include some helpful notations to make the definitions more readable:
   We write $forall_(x in A) p$ for $forall_(x in st) (x in A => p)$
 ]
 
-== Rusell's Paradox
+== Russell's Paradox
 
 Because the definition never requires that the predicate $phi$ have any properties, we can define the following set:
 
@@ -56,21 +56,21 @@ From this, we can derive a contradiction as follows:
   This is @<lem:delta_nin_delta> .
 ]
 
-Obviously, these two are contradictory
+Obviously, these two are contradictory.
 
-== Burtali-Forti Paradox (simplified)
+== Burali-Forti Paradox (simplified)
 
-To understand Burtali Forti, we must first understand what "well-founded sets" are.
+To understand Burali-Forti, we must first understand what "well-founded sets" are.
 
 #definition(<def:well_founded>)[
   A set $A$ is well founded if it is one of:
   1. The empty set, $bot$
-  2. A set that only contains well founded sets, ie, $forall_B B in A => "is well founded"(B)$ is true
+  2. A set that only contains well founded sets, i.e., $forall_B B in A => "is well founded"(B)$ is true
 ]
 
 #lemma[
   @def:well_founded is equivalent to the following definition:
-  A set is well founded if and only if all it's elements are, that is, $wellFounded(A) := forall_(B in A) wellFounded(B)$
+  A set is well founded if and only if all its elements are, that is, $wellFounded(A) := forall_(B in A) wellFounded(B)$
 ]
 
 #proof[
@@ -79,7 +79,7 @@ To understand Burtali Forti, we must first understand what "well-founded sets" a
 
 #definition(<def:set_order>)[
   Define the size#footnote[Not the cardinality] of a set, $|A|$ to be:
-  1. Zero for the emptyset
+  1. Zero for the empty set
   2. The sum of the sizes of the elements of $A$ for a non-empty set, plus 1
 ]
 
@@ -109,8 +109,8 @@ To understand Burtali Forti, we must first understand what "well-founded sets" a
   By @<lem:set_omega_wf>, $Omega$ is well founded, and by @<def:set_omega>, $Omega in Omega$.
 ]
 
-From this, we can prove that $Omega$ must not greater than itself
-#theorem[Burtali-Forti Paradox][
+From this, we can prove that $|Omega|$ must be less than itself.
+#theorem[Burali-Forti Paradox][
   $|Omega| < |Omega|$.
 ]
 
@@ -120,9 +120,9 @@ From this, we can prove that $Omega$ must not greater than itself
 
 === A second definition of well-foundedness
 
-While the above definition for well foundedness is sufficent, there are a couple parts about it that are less than ideal.
+While the above definition for well foundedness is sufficient, there are a couple parts about it that are less than ideal.
 Firstly, it requires recursion (the elements have to follow the same predicate).
-Fourtanetly, there is a even simpler definition of well foundedness that dosen't involve self reference, or even loops of any sort.
+Fortunately, there is an even simpler definition of well foundedness that doesn't involve self reference, or even loops of any sort.
 
 #definition(<def:quasi_universes>)[
   The set of quasi-universes, $V_+$ is defined as ${ p | forall_(x in st) x subset p -> x in p }$, that is, a quasi-universe is its own powerset
@@ -133,9 +133,9 @@ Fourtanetly, there is a even simpler definition of well foundedness that dosen't
 ]
 #proof[
   Let $A$ be some arbitrary set.
-  Form $Omega(A)$ through the same process as $Omega$, but instead of starting with the emptyset, start with $A$'s powerset, thus yielding a set which is not well founded (and therefore not $Omega$) but is a quasi universe
+  Form $Omega(A)$ through the same process as $Omega$, but instead of starting with the empty set, start with $A$'s powerset, thus yielding a set which is not well founded (and therefore not $Omega$) but is a quasi-universe.
 ]
 
-While this does mean that every quasi-universe might not be $Omega$, they still must all _contain_ $Omega$, as the empty set's powerset is a subset of every other set's powerset, and therefore $Omega(emptyset)$ ($Omega$) is a subset of eveery other $Omega(A)$.
+While this does mean that every quasi-universe might not be $Omega$, they still must all _contain_ $Omega$, as the empty set's powerset is a subset of every other set's powerset, and therefore $Omega(emptyset)$ ($Omega$) is a subset of every other $Omega(A)$.
 
 

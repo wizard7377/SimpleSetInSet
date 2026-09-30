@@ -1,11 +1,9 @@
 {-# OPTIONS --type-in-type -WnoInstanceWithExplicitArg #-}
 module Base where
 
-    _⇒_ : Set → Set → Set -- Church encoding of implication
-    A ⇒ B = {{A}} → B
     variable
 
-        A B C P Q : Set
+        A B C : Set
 
     module Pair where
         opaque
@@ -47,16 +45,6 @@ module Base where
 
         curry2 : {A : Set} {B C D : A → Set} → ((X : A) → B X → C X → D X) → (X : A) → (B X ∧ C X) → D X
         curry2 f x p = f x (π₁ p) (π₂ p)
-    module Or where
-
-      _∨_ : Set → Set → Set
-      A ∨ B = ∀ R → (A → R) → (B → R) → R
-
-      InL : A → A ∨ B
-      InL x R f g = f x
-
-      InR : B → A ∨ B
-      InR y R f g = g y
 
     module IdId where
 
@@ -98,13 +86,10 @@ module Base where
         unit : ⊤
         unit = λ α x → x
 
-        falso : ∀ {A : Set _} → ⊥ → A
-        falso {A} contra = contra A
-
         ¬_ : Set _ -> Set _ -- Negation
         ¬_ A = A -> ⊥
 
-        _∘_ : ∀ {A B C : Set _} → (B -> C) -> (A -> B) -> A -> C -- Restircted composition. In here we only need the independent version
+        _∘_ : ∀ {A B C : Set _} → (B -> C) -> (A -> B) -> A -> C -- Restricted composition. In here we only need the independent version
         g ∘ f = λ x → g (f x)
 
         ι : {A : Set _} → A → A
@@ -145,15 +130,6 @@ module Base where
         _∉_ : {S : Set} -> S -> [ S ] -> Set
         A ∉ B = ¬ (A ∈ B)
 
-        _∌_ : {S : Set} -> [ S ] → S -> Set
-        B ∌ A = ¬ (B ∋ A)
-
-        neg∈ : ∀ {S : A} {T : [ A ] } → S ∈ T → ¬ (S ∈ (~ T))
-        neg∈ s∈T s∈~T = elim∋ s∈~T s∈T
-
-        _∋_∋_ : {S : Set} → ⟦ S ⟧ → [ S ] → S → Set -- Note that we write this backwards to emphasize the implication
-        C ∋ B ∋ A = B ∈ C → A ∈ B
-
         -- Subset operator
         _⊆⟨_⟩_ : {S T : Set} → [ S ]  → (S → T) → [ T ] → Set
         S ⊆⟨ f ⟩ T = ∀ {x} → x ∈ S → f x ∈ T
@@ -163,30 +139,18 @@ module Base where
     module SetOps where
         open Basis
         open Base
-        open Or public
         open Pair public
 
     module Rank where
         open Basis
         open Base
 
-        -- Well-foundedness, in the textbook inclusion form
-        _⊆_ : [ A ] → [ A ] → Set
-        p ⊆ q = ∀ {x} → p ∋ x → q ∋ x
-
-
-        -- lower A corresponds to the set of all set of A is a valid element
+        -- lower A corresponds to the set of all sets of A is a valid element
         lower : Set -> Set -- lower A corresponds to "double sets of this are valid elements"
         lower S = ⟦ S ⟧ → S
 
         raise : Set -> Set -- raise A corresponds to "elements of this are valid double sets"
         raise S = S → ⟦ S ⟧
-
-        lower1 : Set -> Set -- lower A corresponds to "double sets of this are valid elements"
-        lower1 S = [ S ] → S
-
-        raise1 : Set -> Set -- raise A corresponds to "elements of this are valid double sets"
-        raise1 S = S → [ S ]
 
 
         fixed : Set -> Set
@@ -216,16 +180,12 @@ module Base where
     module Topos where
         open Pair
         open IdId
-        open Or
         open Basis
         open Base
 
         Fiber_at_ : {A : Set} {B : Set} → (A → B) → B → Set
 
         Fiber_at_ {A} {B} f y = Σ [ x of A ] (f x === y)
-
-        Value : {A B : Set} {f : A → B} → {y : B} → (Fiber f at y) → A
-        Value p = Σ-elim p (λ x _ → x)
 
         Give : {A B : Set} → (f : A → B) (x : A) {y : B} → (f x === y) → Fiber f at y
         Give f x prf = Σ-intro x prf
@@ -236,13 +196,9 @@ module Base where
         fiber_at_ : {A B : Set} → (A → B) → B → [ A ]
         fiber f at y = ⟨ x / f x === y ⟩
 
-        toFiber : {A B : Set} {f : A → B} {y : B} (x : A) → x ∈ (fiber f at y) → Fiber f at y
-        toFiber {f = f} x e = Give f x (elim∋ e)
-
 
     open Pair public
     open IdId public
-    open Or public
     open Basis public
     open Base public
     open Rank public
